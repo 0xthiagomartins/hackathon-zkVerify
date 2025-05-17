@@ -18,8 +18,8 @@ Você está entrando no projeto DeGym, uma plataforma descentralizada para acade
 
 ```bash
 # Criar novo projeto Next.js
-npx create-next-app@latest degym-frontend --typescript
-cd degym-frontend
+npx create-next-app@latest frontend --typescript
+cd frontend
 
 # Instalar dependências
 npm install ethers@5.7.2 axios
