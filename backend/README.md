@@ -1,164 +1,135 @@
-# DeGym zkVerify - Backend
+# DeGym Backend
 
-Este é o backend do projeto DeGym zkVerify, que consiste em uma API FastAPI e circuitos Noir para verificação de presença em academias.
+Backend para o projeto DeGym zkVerify, usando FastAPI e Noir para verificação de presença em academias.
 
 ## Estrutura do Projeto
+
 ```
 backend/
-├── api/                    # API FastAPI
-│   ├── main.py            # Código principal da API
-│   └── run.sh             # Script para executar a API
-├── circuits/              # Circuitos Noir
-│   └── gym_verify/        # Circuito de verificação de localização
-│       └── src/
-│           ├── main.nr    # Circuito principal
-│           └── main.test.nr # Testes do circuito
-└── tests/                 # Testes de integração
-    └── integration_test.py
+├── api/
+│   ├── core/          # Configurações e utilitários
+│   ├── models/        # Modelos Pydantic
+│   ├── routes/        # Rotas da API
+│   └── services/      # Serviços (Noir, Web3)
+├── tests/             # Testes
+└── pyproject.toml     # Configuração do projeto
 ```
 
 ## Pré-requisitos
 
-1. Python 3.10+
-2. Nargo (Noir toolchain)
-3. Ambiente virtual Python
+- Python 3.10+
+- uv (gerenciador de pacotes Python)
+- Nargo (Noir toolchain)
 
 ## Configuração do Ambiente
 
-### 1. Configurar ambiente Python
+1. Instalar uv:
 ```bash
-# Criar ambiente virtual
-python -m venv venv
-
-# Ativar ambiente virtual
-source venv/bin/activate  # Linux/Mac
-# ou
-.\venv\Scripts\activate  # Windows
-
-# Instalar dependências
-pip install -r requirements.txt
+pip install uv
 ```
 
-### 2. Configurar Noir
+2. Criar e ativar ambiente virtual:
 ```bash
-# Verificar instalação do Nargo
-nargo --version
+# Criar ambiente
+uv venv
 
-# Se não estiver instalado, siga as instruções em:
-# https://noir-lang.org/getting_started/nargo_installation
+# Ativar (Linux/Mac)
+source .venv/bin/activate
+# ou (Windows)
+.venv\Scripts\activate
 ```
 
-## Testando os Circuitos Noir
-
+3. Instalar dependências:
 ```bash
-# Entrar no diretório do circuito
-cd circuits/gym_verify  # Note o diretório correto
-
-# Compilar o circuito
-nargo check
-
-# Executar testes
-nargo test
-
-# Para ver logs detalhados dos testes
-nargo test -v
+# Instalar dependências de desenvolvimento
+uv pip install -e ".[dev]"
 ```
 
-### Testando casos específicos
+4. Criar arquivo .env:
 ```bash
-# Testar caso dentro do perímetro
-nargo test test_within_range
-
-# Testar caso fora do perímetro
-nargo test test_outside_range
-```
-
-## Testando a API
-
-### 1. Iniciar a API
-```bash
-# Entrar no diretório da API
-cd api
-
-# Dar permissão de execução ao script (Linux/Mac)
-chmod +x run.sh
-
-# Executar a API
-./run.sh
-# ou
-bash run.sh
-```
-
-A API estará disponível em `http://localhost:8000`
-
-### 2. Testar endpoints via Swagger UI
-Acesse `http://localhost:8000/docs` para ver a documentação interativa e testar os endpoints.
-
-### 3. Testar via cURL
-
-```bash
-# Verificar status da API
-curl http://localhost:8000/health
-
-# Listar academias
-curl http://localhost:8000/gyms
-
-# Obter detalhes de uma academia
-curl http://localhost:8000/gym/1
-
-# Gerar prova ZK (exemplo)
-curl -X POST http://localhost:8000/generate-proof \
-  -H "Content-Type: application/json" \
-  -d '{
-    "user_lat": 37423640,
-    "user_long": -122084050,
-    "gym_id": 1
-  }'
-```
-
-### 4. Executar testes de integração
-```bash
-# No diretório raiz do backend
-python -m pytest tests/integration_test.py -v
-```
-
-## Variáveis de Ambiente
-
-Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
-
-```env
+cat > .env << EOL
 # API Configuration
-API_PORT=8000
 API_HOST=0.0.0.0
+API_PORT=8000
 DEBUG=true
-LOG_LEVEL=INFO
 
 # CORS
 CORS_ORIGINS=["http://localhost:3000"]
 
-# Blockchain
+# Web3
 RPC_URL=http://localhost:8545
 PRIVATE_KEY=your_private_key_here
 CONTRACT_ADDRESS=your_contract_address_here
+
+# Noir
+NOIR_CIRCUIT_PATH=../circuits/gym_verify
+EOL
 ```
 
-## Logs e Debugging
+## Executando a API
 
-Os logs da API são salvos com diferentes níveis (INFO, DEBUG, ERROR) e podem ser visualizados no console.
-
-Para habilitar logs mais detalhados:
+1. Método Direto:
 ```bash
-export DEBUG=true
-export LOG_LEVEL=DEBUG
+uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
+```
+
+2. Usando o script:
+```bash
+chmod +x src/run.sh  # Apenas primeira vez (Linux/Mac)
+./src/run.sh
+```
+
+A API estará disponível em: http://localhost:8000
+Documentação Swagger: http://localhost:8000/docs
+
+## Executando os Testes
+
+```bash
+# Executar todos os testes
+pytest
+
+# Executar com cobertura
+pytest --cov=api
+
+# Executar testes específicos
+pytest tests/test_api.py -v
+```
+
+## Endpoints Disponíveis
+
+- `GET /health` - Verificar status da API
+- `GET /gyms` - Listar todas as academias
+- `GET /gym/{gym_id}` - Obter detalhes de uma academia
+- `POST /generate-proof` - Gerar prova ZK para check-in
+
+## Desenvolvimento
+
+1. Formatação do código:
+```bash
+# Formatar código
+black api/ tests/
+
+# Verificar estilo
+ruff check api/ tests/
+```
+
+2. Verificar tipos:
+```bash
+mypy api/
 ```
 
 ## Troubleshooting
 
-### Problemas comuns com o circuito Noir:
-1. Erro de compilação: Verifique a sintaxe e tipos no arquivo `main.nr`
-2. Falha nos testes: Verifique os valores de teste em `main.test.nr`
+### Problemas Comuns
 
-### Problemas comuns com a API:
-1. Porta em uso: Mude a porta no arquivo `.env`
-2. Erro CORS: Verifique a configuração de `CORS_ORIGINS`
-3. Erro de conexão: Verifique se o ambiente virtual está ativado 
+1. Erro de importação de módulos:
+   - Verifique se está no diretório correto
+   - Verifique se o ambiente virtual está ativado
+
+2. Erro de conexão na API:
+   - Verifique se as portas estão corretas no .env
+   - Verifique se não há outro serviço usando a mesma porta
+
+3. Erro nos testes:
+   - Verifique se todas as dependências de desenvolvimento foram instaladas
+   - Verifique se o arquivo .env está configurado corretamente 
