@@ -45,7 +45,10 @@ contract ZkCheckinTest is Test {
 
         assertEq(lat, LAT + 1000);
         assertEq(long, LONG - 1000);
-        assertEq(maxDistanceSquared, MAX_DISTANCE * MAX_DISTANCE * 10 * 2);
+        assertEq(
+            maxDistanceSquared,
+            (MAX_DISTANCE * 2) * (MAX_DISTANCE * 2) * 10
+        );
         assertTrue(active);
         vm.stopPrank();
     }
