@@ -23,8 +23,6 @@ Imagine que você precisa provar que está dentro de um círculo (a academia), s
 3. **Verificação da prova**: A blockchain verifica a matemática da prova, sem ver os dados originais
 4. **Check-in confirmado**: Se a prova for válida, o check-in é registrado e você recebe seus pontos DCP
 
-![Processo Simplificado](diagrams/zkVerify_simplified.png)
-
 ## Benefícios para Todos
 
 ### Para Usuários
@@ -94,7 +92,3 @@ Na primeira fase do MVP, estamos focando na verificação básica de presença. 
 - Verificação de padrões de movimento para confirmar que o usuário está realmente se exercitando
 - Integração com wearables para enriquecimento de dados de atividade física
 - Sistema de reputação para academias baseado em verificações bem-sucedidas
-
----
-
-**Nota para Desenvolvedores**: Para detalhes técnicos mais profundos sobre a implementação, consulte o arquivo [README.md](README.md) principal e os exemplos de código no diretório `examples/`. 
