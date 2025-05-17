@@ -13,4 +13,4 @@ O desenvolvedor deve atualizar o arquivo tasks.md conforme avança nas implement
 - **Sprint 1**: Configuração e Desenvolvimento do Circuito Noir (1 dia)
 - **Sprint 2**: Desenvolvimento da API com FastAPI (1 dia)
 - **Sprint 3**: Desenvolvimento dos Smart Contracts (1 dia)
-- **Sprint 4**: Testes de Integração e Deploy (1 dia) 
+- **Sprint 4**: Testes de Integração e Deploy (1 dia)
