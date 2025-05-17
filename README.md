@@ -1,0 +1,1 @@
+# zkVerify Hackathon powered by NearX
