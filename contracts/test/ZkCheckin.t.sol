@@ -97,17 +97,19 @@ contract ZkCheckinTest is Test {
         vm.stopPrank();
     }
 
-    function testFailCheckinInactiveGym() public {
+    function test_RevertWhen_GymInactive() public {
         vm.prank(OWNER);
         checkin.setGymStatus(GYM_ID, false);
 
         vm.startPrank(USER);
         uint256[] memory publicInputs = new uint256[](4);
+
+        vm.expectRevert("Gym not active");
         checkin.checkin(GYM_ID, bytes("dummy_proof"), publicInputs);
         vm.stopPrank();
     }
 
-    function testFailCheckinInvalidProof() public {
+    function test_RevertWhen_InvalidProof() public {
         MockVerifier(address(mockVerifier)).setShouldPass(false);
 
         vm.startPrank(USER);

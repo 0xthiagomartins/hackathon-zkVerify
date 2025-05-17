@@ -1,32 +1,35 @@
-// Circuito para verificar se o usuário está dentro do perímetro da academia
+// Circuit to verify if user is within gym perimeter
 fn main(
-    // Coordenadas do usuário (multiplicadas por 10^6 para precisão)
+    // User coordinates (multiplied by 10^6)
     user_lat: Field,
     user_long: Field,
-    
-    // Coordenadas da academia
+    // Gym coordinates
     gym_lat: Field,
     gym_long: Field,
-    
-    // Distância máxima permitida (ao quadrado)
-    max_distance_squared: Field
+    // Maximum allowed distance (squared)
+    max_distance_squared: Field,
 ) {
-    // Calcular diferença em coordenadas
-    let lat_diff = if user_lat > gym_lat { 
-        user_lat - gym_lat 
-    } else { 
-        gym_lat - user_lat 
+    // Adjust longitude to match contract system
+    let LONG_CONVERSION = 180 * 1_000_000; // 180 degrees * 10^6
+    let adjusted_user_long = user_long + LONG_CONVERSION;
+    let adjusted_gym_long = gym_long + LONG_CONVERSION;
+
+    // Calculate coordinate differences
+    let lat_diff = if (user_lat as u64) > (gym_lat as u64) {
+        user_lat - gym_lat
+    } else {
+        gym_lat - user_lat
     };
-    
-    let long_diff = if user_long > gym_long { 
-        user_long - gym_long 
-    } else { 
-        gym_long - user_long 
+
+    let long_diff = if (adjusted_user_long as u64) > (adjusted_gym_long as u64) {
+        adjusted_user_long - adjusted_gym_long
+    } else {
+        adjusted_gym_long - adjusted_user_long
     };
-    
-    // Versão simplificada do cálculo de distância (distância euclidiana ao quadrado)
+
+    // Simplified distance calculation (squared euclidean distance)
     let distance_squared = lat_diff * lat_diff + long_diff * long_diff;
-    
-    // Verificar se o usuário está perto o suficiente
-    constrain distance_squared <= max_distance_squared;
-} 
+
+    // Check if user is close enough
+    assert((distance_squared as u64) <= (max_distance_squared as u64));
+}

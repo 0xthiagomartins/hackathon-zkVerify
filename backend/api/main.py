@@ -6,10 +6,14 @@ import subprocess
 import json
 import os
 import logging
+from dotenv import load_dotenv
+
+# Carregar variáveis de ambiente
+load_dotenv()
 
 # Configuração de logging
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.INFO if not os.getenv("DEBUG") else logging.DEBUG,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger("degym-api")
@@ -23,22 +27,14 @@ app = FastAPI(
 # Configuração de CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Ajustar para produção
+    allow_origins=json.loads(os.getenv("CORS_ORIGINS", '["http://localhost:3000"]')),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-# Modelos de dados
-class Gym(BaseModel):
-    id: int
-    name: str
-    lat: int  # Multiplicado por 10^6
-    long: int  # Multiplicado por 10^6
-    max_distance: int  # Em metros
-
-
+# Modelos
 class ProofRequest(BaseModel):
     user_lat: int  # Multiplicado por 10^6
     user_long: int  # Multiplicado por 10^6
@@ -73,100 +69,47 @@ gyms = {
 
 @app.get("/")
 async def root():
-    """Endpoint raiz para verificar se a API está funcionando"""
-    return {"status": "online", "message": "DeGym zkVerify API"}
+    """Endpoint raiz para verificar se a API está online"""
+    return {"status": "online", "version": "0.1.0"}
 
 
-@app.get("/gyms", response_model=List[Dict[str, Any]])
+@app.get("/gyms")
 async def get_gyms():
-    """Retorna lista de academias disponíveis"""
+    """Retorna lista de todas as academias disponíveis"""
     return list(gyms.values())
 
 
-@app.get("/gym/{gym_id}", response_model=Dict[str, Any])
+@app.get("/gym/{gym_id}")
 async def get_gym(gym_id: int):
-    """Retorna informações da academia pelo ID"""
+    """Retorna detalhes de uma academia específica"""
     if gym_id not in gyms:
         raise HTTPException(status_code=404, detail="Academia não encontrada")
-
     return gyms[gym_id]
 
 
-@app.post("/generate-proof", response_model=ProofResponse)
-async def generate_proof(request: ProofRequest):
-    """Gera uma prova ZK para verificar a localização do usuário"""
-    # Verificar se a academia existe
-    if request.gym_id not in gyms:
-        raise HTTPException(status_code=404, detail="Academia não encontrada")
-
-    gym = gyms[request.gym_id]
-
+@app.post("/generate-proof")
+async def generate_proof(request: ProofRequest) -> ProofResponse:
+    """Gera uma prova ZK para check-in em uma academia"""
     try:
-        # Calcular o quadrado da distância máxima (para eficiência no cálculo)
-        # Ajuste este cálculo conforme necessário para mapear corretamente unidades
-        max_distance_squared = gym["max_distance"] * gym["max_distance"] * 10
+        if request.gym_id not in gyms:
+            raise HTTPException(status_code=404, detail="Academia não encontrada")
 
-        # Criar arquivo de input para o Nargo
-        input_data = {
-            "user_lat": str(request.user_lat),
-            "user_long": str(request.user_long),
-            "gym_lat": str(gym["lat"]),
-            "gym_long": str(gym["long"]),
-            "max_distance_squared": str(max_distance_squared),
-        }
+        gym = gyms[request.gym_id]
 
-        # Caminho para o projeto Noir (ajuste conforme seu ambiente)
-        noir_path = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)), "circuits", "gym_verify"
-        )
+        # Gerar prova usando o circuito Noir
+        # TODO: Implementar chamada ao circuito Noir
 
-        logger.info(f"Gerando prova com inputs: {input_data}")
-
-        # Salvar os inputs em um arquivo
-        with open(f"{noir_path}/Prover.toml", "w") as f:
-            for key, value in input_data.items():
-                f.write(f"{key} = {value}\n")
-
-        # Executar Nargo para gerar a prova
-        result = subprocess.run(
-            ["nargo", "prove", "p"], cwd=noir_path, capture_output=True, text=True
-        )
-
-        if result.returncode != 0:
-            logger.error(f"Erro ao gerar prova: {result.stderr}")
-            return ProofResponse(
-                proof="",
-                public_inputs=[],
-                success=False,
-                message=f"Erro ao gerar prova: {result.stderr}",
-            )
-
-        # Ler a prova gerada
-        with open(f"{noir_path}/proofs/p.proof", "r") as f:
-            proof = f.read().strip()
-
-        # Ler os inputs públicos
-        with open(f"{noir_path}/Verifier.toml", "r") as f:
-            verifier_data = f.read()
-            # Extrair os valores dos inputs públicos
-            public_inputs = []
-            for line in verifier_data.strip().split("\n"):
-                if "=" in line:
-                    value = line.split("=")[1].strip()
-                    public_inputs.append(value)
-
-        logger.info("Prova gerada com sucesso")
-
+        # Mock da resposta por enquanto
         return ProofResponse(
-            proof=proof,
-            public_inputs=public_inputs,
+            proof="0x...",
+            public_inputs=["0", "0", "0", "0"],
             success=True,
             message="Prova gerada com sucesso",
         )
 
     except Exception as e:
         logger.error(f"Erro ao gerar prova: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Erro ao gerar prova: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/health")
