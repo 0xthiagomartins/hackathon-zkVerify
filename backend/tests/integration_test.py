@@ -5,6 +5,7 @@ import subprocess
 import time
 from web3 import Web3
 from dotenv import load_dotenv
+import pytest
 
 # Carregar variáveis de ambiente
 load_dotenv()
@@ -20,11 +21,34 @@ w3 = Web3(Web3.HTTPProvider(RPC_URL))
 account = w3.eth.account.from_key(PRIVATE_KEY)
 
 # Carregar ABI do contrato
-with open("../../contracts/out/ZkCheckin.sol/ZkCheckin.json", "r") as f:
+with open("../contracts/out/ZkCheckin.sol/ZkCheckin.json", "r") as f:
     contract_json = json.load(f)
     abi = contract_json["abi"]
 
 contract = w3.eth.contract(address=CONTRACT_ADDRESS, abi=abi)
+
+
+@pytest.fixture
+def generate_proof():
+    """Gerar prova ZK para uma academia"""
+    # Usar as coordenadas exatas da academia registrada no contrato
+    user_lat = 37423642  # Mesma latitude da academia
+    user_long = 57915942  # Mesma longitude da academia
+    gym_id = 1
+
+    response = requests.post(
+        f"{API_URL}/generate-proof",
+        json={"user_lat": user_lat, "user_long": user_long, "gym_id": gym_id},
+    )
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["success"] == True
+    assert "proof" in data
+    assert "public_inputs" in data
+
+    print("✅ Successfully generated ZK proof")
+    return data
 
 
 def test_api_health():
@@ -42,42 +66,48 @@ def test_get_gyms():
     gyms = response.json()
     assert len(gyms) > 0
     print(f"✅ Retrieved {len(gyms)} gyms from API")
-    return gyms
+    assert isinstance(gyms, list)
 
 
-def test_generate_proof(gym_id=1):
-    """Gerar prova ZK para uma academia"""
-    # Coordenadas próximas à academia
-    user_lat = 37423640
-    user_long = -122084050
-
-    response = requests.post(
-        f"{API_URL}/generate-proof",
-        json={"user_lat": user_lat, "user_long": user_long, "gym_id": gym_id},
-    )
-
-    assert response.status_code == 200
-    proof_data = response.json()
-    assert proof_data["success"] == True
-    assert "proof" in proof_data
-    assert "public_inputs" in proof_data
-
-    print("✅ Successfully generated ZK proof")
-    return proof_data
+def test_generate_proof(generate_proof):
+    """Testar geração de prova"""
+    data = generate_proof
+    assert data["success"] == True
+    assert "proof" in data
+    assert "public_inputs" in data
 
 
-def test_contract_checkin(proof_data, gym_id=1):
+def test_contract_checkin(generate_proof):
     """Testar check-in no contrato usando a prova gerada"""
     try:
-        # Converter inputs públicos para inteiros
+        proof_data = generate_proof
         public_inputs = [int(input_val) for input_val in proof_data["public_inputs"]]
 
-        # Preparar dados da transação
-        proof_bytes = bytes.fromhex(proof_data["proof"].replace("0x", ""))
+        # Debug dos inputs antes de enviar
+        print("\nDebug info:")
+        print(f"Public inputs being sent: {public_inputs}")
+
+        # Buscar dados da academia diretamente do mapping
+        gym_data = contract.functions.gyms(1).call()
+        print("Actual gym data from contract:")
+        print(f"Latitude: {gym_data[0]}")  # lat
+        print(f"Longitude: {gym_data[1]}")  # long
+        print(f"Max Distance Squared: {gym_data[2]}")  # maxDistanceSquared
+        print(f"Active: {gym_data[3]}")  # active
+
+        # Garantir que a prova seja uma string hexadecimal válida
+        proof_hex = proof_data["proof"].replace("0x", "")
+        if proof_hex == "...":  # Mock proof
+            # Prova mock mais realista
+            proof_hex = "00" * 128  # Aumentando para 128 bytes
+        proof_bytes = bytes.fromhex(proof_hex)
+
+        print(f"Debug - Proof bytes length: {len(proof_bytes)}")
+        print(f"Debug - Public inputs: {public_inputs}")
 
         # Construir transação
         txn = contract.functions.checkin(
-            gym_id, proof_bytes, public_inputs
+            1, proof_bytes, public_inputs
         ).build_transaction(
             {
                 "from": account.address,
@@ -91,41 +121,36 @@ def test_contract_checkin(proof_data, gym_id=1):
         signed_txn = w3.eth.account.sign_transaction(txn, PRIVATE_KEY)
         tx_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
 
-        # Esperar pela confirmação
-        receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+        try:
+            # Tentar obter o erro da transação
+            tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
+            if tx_receipt.status == 0:
+                # Tentar simular a transação para ver o erro
+                w3.eth.call(
+                    {
+                        "from": account.address,
+                        "to": CONTRACT_ADDRESS,
+                        "data": txn["data"],
+                        "gas": txn["gas"],
+                    }
+                )
+        except Exception as call_error:
+            print(f"Debug - Transaction error details: {str(call_error)}")
+            raise
 
+        receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
         assert receipt.status == 1, "Transaction failed"
         print(f"✅ Check-in transaction successful: {receipt.transactionHash.hex()}")
 
         # Verificar check-in no contrato
-        checkin_count = contract.functions.getUserGymCheckins(
-            account.address, gym_id
-        ).call()
-        print(f"✅ User now has {checkin_count} check-ins at gym {gym_id}")
-
-        return receipt
+        checkin_count = contract.functions.getUserGymCheckins(account.address, 1).call()
+        assert checkin_count > 0, "Check-in count should be greater than 0"
+        print(f"✅ User now has {checkin_count} check-ins at gym 1")
 
     except Exception as e:
         print(f"❌ Error during contract check-in: {str(e)}")
         raise
 
 
-def run_integration_test():
-    """Executar teste de integração completo"""
-    print("🔍 Starting integration test...")
-
-    test_api_health()
-    gyms = test_get_gyms()
-
-    # Escolher a primeira academia para o teste
-    gym_id = gyms[0]["id"]
-    print(f"🏋️ Testing with gym: {gyms[0]['name']} (ID: {gym_id})")
-
-    proof_data = test_generate_proof(gym_id)
-    receipt = test_contract_checkin(proof_data, gym_id)
-
-    print("✨ Integration test completed successfully!")
-
-
 if __name__ == "__main__":
-    run_integration_test()
+    pytest.main([__file__])

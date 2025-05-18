@@ -10,42 +10,42 @@
 
 | Tarefa | Status | Observações |
 |--------|--------|-------------|
-| Instalar Noir via noirup | 🔴 | |
-| Configurar ambiente Python e virtualenv | 🔴 | |
-| Instalar dependências Python (FastAPI, uvicorn, etc.) | 🔴 | |
-| Instalar e configurar Foundry | 🔴 | |
-| Criar estrutura de diretórios do projeto | 🔴 | |
-| Configurar .gitignore e arquivos de ambiente | 🔴 | |
+| Instalar Noir via noirup | 🟢 | Instalado e configurado |
+| Configurar ambiente Python e virtualenv | 🟢 | Usando .venv |
+| Instalar dependências Python (FastAPI, uvicorn, etc.) | 🟢 | Via requirements.txt |
+| Instalar e configurar Foundry | 🟢 | Configurado para contratos |
+| Criar estrutura de diretórios do projeto | 🟢 | Estrutura completa |
+| Configurar .gitignore e arquivos de ambiente | 🟢 | .env e .gitignore configurados |
 
 ## Desenvolvimento do Circuito Noir
 
 | Tarefa | Status | Observações |
 |--------|--------|-------------|
-| Criar projeto Noir para verificação de proximidade | 🔴 | |
-| Implementar cálculo de distância euclidiana | 🔴 | |
-| Adicionar lógica para verificar se distância é menor que o perímetro | 🔴 | |
-| Otimizar cálculos para eficiência | 🔴 | |
-| Adicionar comentários explicativos no código | 🔴 | |
-| Compilar circuito com nargo | 🔴 | |
-| Gerar verificador para smart contracts | 🔴 | |
+| Criar projeto Noir para verificação de proximidade | 🟢 | Em circuits/gym_verify |
+| Implementar cálculo de distância euclidiana | 🟢 | Implementado no circuito |
+| Adicionar lógica para verificar se distância é menor que o perímetro | 🟢 | Verificação implementada |
+| Otimizar cálculos para eficiência | 🟡 | Em andamento |
+| Adicionar comentários explicativos no código | 🟢 | Documentação inline |
+| Compilar circuito com nargo | 🟢 | Compilação funcionando |
+| Gerar verificador para smart contracts | 🟡 | Em progresso |
 
 ## Testes do Circuito
 
 | Tarefa | Status | Observações |
 |--------|--------|-------------|
-| Criar casos de teste para usuário dentro do perímetro | 🔴 | |
-| Criar casos de teste para usuário fora do perímetro | 🔴 | |
-| Implementar testes de unidade para o circuito | 🔴 | |
-| Executar testes e verificar resultados | 🔴 | |
-| Documentar entradas e saídas do circuito | 🔴 | |
-| Criar instruções para execução de testes | 🔴 | |
+| Criar casos de teste para usuário dentro do perímetro | 🟢 | Em tests/test_api.py |
+| Criar casos de teste para usuário fora do perímetro | 🟢 | Em tests/test_api.py |
+| Implementar testes de unidade para o circuito | 🟢 | Testes implementados |
+| Executar testes e verificar resultados | 🟢 | Testes passando |
+| Documentar entradas e saídas do circuito | 🟢 | Em README.md |
+| Criar instruções para execução de testes | 🟢 | Em README.md |
 
 ## Documentação
 
 | Tarefa | Status | Observações |
 |--------|--------|-------------|
-| Documentar processo de instalação | 🔴 | |
-| Criar README para o circuito Noir | 🔴 | |
-| Documentar entradas/saídas e formato dos dados | 🔴 | |
-| Explicar abordagem de cálculo de distância | 🔴 | |
-| Listar limitações do circuito atual | 🔴 | | 
+| Documentar processo de instalação | 🟢 | Em README.md |
+| Criar README para o circuito Noir | 🟢 | Documentação completa |
+| Documentar entradas/saídas e formato dos dados | 🟢 | Em README.md |
+| Explicar abordagem de cálculo de distância | 🟢 | Em README.md |
+| Listar limitações do circuito atual | �� | Em progresso | 

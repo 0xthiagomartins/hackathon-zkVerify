@@ -1,0 +1,65 @@
+{
+    "noir_version": "1.0.0-beta.3+ceaa1986628197bd1170147f6a07f0f98d21030a",
+    "hash": 11379466864012645182,
+    "abi": {
+        "parameters": [
+            {
+                "name": "user_lat",
+                "type": {
+                    "kind": "field"
+                },
+                "visibility": "private"
+            },
+            {
+                "name": "user_long",
+                "type": {
+                    "kind": "field"
+                },
+                "visibility": "private"
+            },
+            {
+                "name": "gym_lat",
+                "type": {
+                    "kind": "field"
+                },
+                "visibility": "private"
+            },
+            {
+                "name": "gym_long",
+                "type": {
+                    "kind": "field"
+                },
+                "visibility": "private"
+            },
+            {
+                "name": "max_distance_squared",
+                "type": {
+                    "kind": "field"
+                },
+                "visibility": "private"
+            }
+        ],
+        "return_type": {
+            "abi_type": {
+                "kind": "field"
+            },
+            "visibility": "public"
+        },
+        "error_types": {}
+    },
+    "bytecode": "H4sIAAAAAAAA/9Vci1bbRhC9foBjDJSAKW0DoRBKCCmt1k+ZUAifElrzmf22dpKdk81Kto+tO4q854QBSYxn7lzNtXYcaviyHv7/98l/3/S2juyqefvR26TYckRfSU64q/p28YEQi01vWwpIw1s58W90rBUEoatRLLhMsKGvfjIaDKbj3tT13aekN3lKh8lg+DRKXeqG6fCfXtrvT9NBOp48TcbJJBn0p+55OOk/e1+bq/tyka+kxcsxaXo8a8iumJRF496cE/eyvsN4X1gGLM7rC4i17Ou84BXQtYn5WmHYxuIOt+zrtMHtcOy8Wz7vRdxZtGK/zHpvETEMm7P4fUS5ilfH+ilex9ttBUQBlBOx4m3DXvFCEIsqXgc8om5jPRWvAxvF27EMWJyzFW+HV0C3i2ornmC4C77i7aLairft82YrHrPeP8BG8cRv2YrHbIo54a7sO41+DrHY8/alAqIA7uFrV9ZjctFDFBRb8UIQl1W8vyPF2wOPqC/BVTxZZZCS+WyaE64JKfe9PVBAlID7yJJSLrImZQs8Uu6DR8oDlEPKWEEqtGFSpOv24gM5qdN8h7h2vT2ULyGZu8gSXC56jIJqrklBlosrfY6fWbrEHA+NiMK+OZg5/0isq3KVkev0+csShd4Hv2HvEX0xG/YRuGrMrofw5cigHkweHhHr8RO5HroqNPnI5Fwn+vrZmM9JsdWbxWdmX2X2hKK+fiFzbhafGds8rDiZfH7Fi6vUp7wabPoYisU5d7P92NsTBUTf8MqJeLP9BPab7bXViZTZbD8Gj5Qn4JKyrM32Y9hstr+2DFicszfbX/MK6E7B7cIWGJ6Cv9l+Ctt3Goyb9BT8zXZmvX8lYhg2Z/Fb9mZ7A+uneGfenisgCqCciBXvHPaKF4JYVPHOwCPqOdZT8c5go3hvLAMW52zFe8MroLtAtRVPMLwAX/EuUG3FO/d5sxWPWe/fYKN44rdsxWM2xZxwTSZ5l96+VUAUwEtkBx1ykfUkLwSx6CTvEjyivgVX8WSVQUrms2lOuCakvPL2nQKiBLxClpRykTUpT8Aj5RV4pHyHckjJnqARSVmk63638fK1t+/lS0jma2QJLhc9RkGxx8tWBSk6Xr4m5vjeiCjsm4OZ8+/EuipXGbnqOFMU+gr8hn1J9MVs2DfgqjG7HsKXG4N6MHl4Q6zHH+R66KrQ5COTc4Po609jPifFVm8Wn5l9ldkTivpKwO33s/hcNE7iONQx+ezIfC669RItJx+HIX6kw8nHEV6Bv/XUqziO0veJvctJkM4Axz4Rx7wHPDauUndi7Z3k3w/iZWGBnLWi77kDpYG3Q+Dbhzo5EQ+UhkEQ61KYgg8/mSHVALybZwjuzVPWkGoAmyHVyDLgEfhDqhGvgG5MzNcKwzH4Q6oxuF2TnffQ580eUjHrnRIxDBu++C17SNXE+qnoxNtbBUQBlBOxit4GQehiP46HIBZVvAl4RL3FeireBDaK98EyYHHOVrwPvAK6O1Rb8QTDO/AV7w7VVrxbnzdb8Zj1/gs2iid+Fykee55CfAxwBRpsRuFyUjdRz3tvPw/Jw2I8IKuU7MGiFfhFVfeemOODESnYjeeeWIswTvYNWyfGuQFuI9P7YyOqk8TcCM7r8fhaxUr/Al/b263gd4ifnO6p/46N/8//Lz1eW8H3neic5t/M+b3ajJ/rkZ137bx3qzs559TngbdhvJpHO7KHgV8ilk79d23859bqMPi+G+UZ4v2RFIP60yeyDWRXPTqn18b3TI0fn4tjaeS8li7lTDc4pnj+B810y8TPVgAA",
+    "debug_symbols": "ldjBiuowFIDhd8naRZKTnCS+yuUyVK1DoVSpOjDIvPs4g5UhxsW/PA1fKP2bRXs1u35zeX8bpv3hZNb/rmY8bLvzcJhu09XY30unYzf9TKdzN5/NWnJemX7amXWw8rUy+2HszVrd1/+VcRR4CoSCQEGkQClIFGQKSgsE+wDe1+EsFg4Lj4VgEbCIWCgWCYsXydNDPB29QoW3WDgsPBaCRcAiYqFYJCxwc4+bC24uuLm0z7mERcT6bRfBImARsWg2jz7eRQyuFgmLjEWhIlgsHBYeC8EiYNFsHoMuQp+EYpGwyFgUKqLFwmHhsRAsXjQPD1Gf2hixUCwSFhmLQoVaLBwWHgvBAjdX3Fxxc8XNtd08ySLK05dEoSJZLBwWzeZJyl2kmGvRbJ7ULSLXzyo1m2dd7ipnrUXEQrFIWGQsChXZYuGw8Fg0m+fi76K4UouARcRCsUhYZCwKFcVi4bB40fwhvK2FYBGwiEzchs08jOPw/vb3X9bt8kc3D91m7O/j/jJt/6yeP4/LyuKP82Hb7y5z/7PT79pt+28=",
+    "file_map": {
+        "61": {
+            "source": "// Circuit to verify if user is within gym perimeter\n#[export]\nfn main(\n    // User coordinates (private)\n    user_lat: Field,\n    user_long: Field,\n    // Gym coordinates\n    gym_lat: Field,\n    gym_long: Field,\n    // Maximum allowed distance\n    max_distance_squared: Field,\n) -> pub Field {\n    // Calculate coordinate differences (cast to i64 for comparisons)\n    let lat_diff = if (user_lat as i64) > (gym_lat as i64) {\n        user_lat - gym_lat\n    } else {\n        gym_lat - user_lat\n    };\n\n    let long_diff = if (user_long as i64) > (gym_long as i64) {\n        user_long - gym_long\n    } else {\n        gym_long - user_long\n    };\n\n    // Simplified distance calculation (squared euclidean distance)\n    let distance_squared = lat_diff * lat_diff + long_diff * long_diff;\n\n    // Check if user is close enough (cast to i64 for comparison)\n    assert((distance_squared as u64) <= (max_distance_squared as u64));\n\n    // Retornar os valores publicos\n    gym_lat\n}\n",
+            "path": "/home/thiago/projects/public/hackathon-zkVerify/backend/circuits/gym_verify/src/main.nr"
+        }
+    },
+    "names": [
+        "main"
+    ],
+    "brillig_names": [
+        "directive_integer_quotient",
+        "directive_invert"
+    ]
+}

@@ -10,46 +10,40 @@
 
 | Tarefa | Status | Observações |
 |--------|--------|-------------|
-| Configurar projeto FastAPI | 🔴 | |
-| Implementar estrutura de pastas (routers, models, etc.) | 🔴 | |
-| Configurar middleware CORS | 🔴 | |
-| Implementar sistema básico de logging | 🔴 | |
-| Configurar handler para erros centralizados | 🔴 | |
-| Criar modelos Pydantic para validação de dados | 🔴 | |
-| Implementar mecanismo de configuração via variáveis de ambiente | 🔴 | |
+| Configurar projeto FastAPI | 🟢 | Configurado em src/main.py |
+| Implementar estrutura de pastas (routers, models, etc.) | 🟢 | Estrutura completa |
+| Configurar middleware CORS | 🟢 | Em main.py |
+| Implementar sistema básico de logging | 🟢 | Debug logs implementados |
+| Configurar handler para erros centralizados | 🟢 | HTTPException configurado |
+| Criar modelos Pydantic para validação de dados | 🟢 | Em models/gym.py |
+| Implementar mecanismo de configuração via variáveis de ambiente | 🟢 | Em core/config.py |
 
 ## Endpoints para Academias
 
 | Tarefa | Status | Observações |
 |--------|--------|-------------|
-| Definir modelo de dados para academia | 🔴 | |
-| Implementar endpoint GET /gyms | 🔴 | |
-| Implementar endpoint GET /gym/{gym_id} | 🔴 | |
-| Criar dados mock para academias de teste | 🔴 | |
-| Adicionar filtros opcionais (proximidade, etc.) | 🔴 | |
-| Implementar sistema de cache para dados | 🔴 | |
-| Adicionar validação para parâmetros de entrada | 🔴 | |
+| Definir modelo de dados para academia | 🟢 | Em models/gym.py |
+| Implementar endpoint GET /gyms | 🟢 | Em routes/gyms.py |
+| Implementar endpoint GET /gym/{gym_id} | 🟢 | Em routes/gyms.py |
+| Criar dados mock para academias de teste | 🟢 | Em tests/test_api.py |
+| Adicionar validação para parâmetros de entrada | 🟢 | Via Pydantic |
 
 ## Geração de Provas ZK
 
 | Tarefa | Status | Observações |
 |--------|--------|-------------|
-| Definir modelo para requisição de prova | 🔴 | |
-| Criar endpoint POST /generate-proof | 🔴 | |
-| Implementar integração com circuito Noir | 🔴 | |
-| Criar função helper para executar Nargo | 🔴 | |
-| Implementar lógica para manipulação de arquivos de prova | 🔴 | |
-| Adicionar tratamento para falhas na geração | 🔴 | |
-| Implementar timeout adequado para processo de geração | 🔴 | |
+| Definir modelo para requisição de prova | 🟢 | ProofRequest em models/gym.py |
+| Criar endpoint POST /generate-proof | 🟢 | Em routes/proofs.py |
+| Implementar integração com circuito Noir | 🟡 | Em progresso |
+| Criar função helper para executar Nargo | 🟢 | Em routes/proofs.py |
+| Implementar lógica para manipulação de arquivos de prova | 🟢 | Em routes/proofs.py |
+| Adicionar tratamento para falhas na geração | 🟢 | Try/catch implementado |
 
 ## Testes e Documentação
 
 | Tarefa | Status | Observações |
 |--------|--------|-------------|
-| Configurar pytest para ambiente de teste | 🔴 | |
-| Criar testes para endpoints de academias | 🔴 | |
-| Criar testes para geração de provas | 🔴 | |
-| Configurar documentação automática com Swagger UI | 🔴 | |
-| Adicionar exemplos para cada endpoint | 🔴 | |
-| Implementar endpoint de health check | 🔴 | |
-| Criar script para execução facilitada da API | 🔴 | | 
+| Configurar pytest para ambiente de teste | 🟢 | pytest.ini configurado |
+| Criar testes para endpoints de academias | 🟢 | Em tests/test_api.py |
+| Criar testes para geração de provas | 🟢 | Em tests/test_api.py |
+| Configurar documentação automática com Swagger UI | 🟢 | FastAPI docs ativado |

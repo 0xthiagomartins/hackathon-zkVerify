@@ -21,7 +21,14 @@ class Settings(BaseSettings):
     CONTRACT_ADDRESS: str = ""
 
     # Noir
-    NOIR_CIRCUIT_PATH: str = "../circuits/gym_verify"
+    NOIR_CIRCUIT_PATH: str = "/app/circuits/gym_verify"
+
+    # Mock data (substituir por DB)
+    GYM_LAT: str = "37423642"
+    GYM_LONG: str = "57915942"
+
+    class Config:
+        env_file = ".env"
 
 
 settings = Settings()

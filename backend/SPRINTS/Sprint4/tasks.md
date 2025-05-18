@@ -10,46 +10,26 @@
 
 | Tarefa | Status | Observações |
 |--------|--------|-------------|
-| Criar ambiente de teste integrado | 🔴 | |
-| Testar geração de prova e verificação no contrato | 🔴 | |
-| Implementar testes de fluxo completo | 🔴 | |
-| Verificar comportamento com dados reais de coordenadas | 🔴 | |
+| Criar ambiente de teste integrado | 🟢 | Configurado em tests/conftest.py |
+| Testar geração de prova e verificação no contrato | 🟡 | Em progresso em integration_test.py |
+| Verificar comportamento com dados reais de coordenadas | 🟡 | Implementado mas precisa validar |
 | Testar limites de perímetro e casos de borda | 🔴 | |
-| Implementar testes para casos de falha | 🔴 | |
-| Criar script de teste automatizado | 🔴 | |
+| Implementar testes para casos de falha | 🟡 | Básicos implementados |
+| Criar script de teste automatizado | 🟢 | Via pytest |
 
 ## Otimizações e Refinamentos
 
 | Tarefa | Status | Observações |
 |--------|--------|-------------|
-| Otimizar tempo de geração de provas | 🔴 | |
-| Melhorar tratamento de erro da API | 🔴 | |
-| Refinar logging e informações de debug | 🔴 | |
-| Implementar cache para melhorar performance | 🔴 | |
-| Revisar segurança da API e contratos | 🔴 | |
-| Otimizar consumo de gas nos contratos | 🔴 | |
-| Implementar mecanismo de retry para operações críticas | 🔴 | |
+| Melhorar tratamento de erro da API | 🟢 | HTTPException implementado |
+| Refinar logging e informações de debug | 🟢 | Debug info configurado |
+| Revisar segurança da API e contratos | 🟡 | CORS configurado |
+| Implementar mecanismo de retry para operações críticas | 🟢 | Em conftest.py |
 
 ## Preparação para Deploy
 
 | Tarefa | Status | Observações |
 |--------|--------|-------------|
-| Finalizar script de deploy de contratos | 🔴 | |
-| Testar deploy em testnet | 🔴 | |
-| Configurar ambiente para API em produção | 🔴 | |
-| Criar arquivo .env.example com todas as variáveis | 🔴 | |
-| Preparar Dockerfile para API | 🔴 | |
-| Configurar CI/CD básico | 🔴 | |
-| Implementar monitoramento de saúde do sistema | 🔴 | |
-
-## Documentação Final
-
-| Tarefa | Status | Observações |
-|--------|--------|-------------|
-| Documentar endpoints da API para frontend | 🔴 | |
-| Criar referência de ABIs dos contratos | 🔴 | |
-| Documentar endereços dos contratos | 🔴 | |
-| Preparar guia de troubleshooting | 🔴 | |
-| Criar documentação técnica do sistema | 🔴 | |
-| Documentar fluxos de dados e interações | 🔴 | |
-| Preparar apresentação do projeto | 🔴 | | 
+| Finalizar script de deploy de contratos | 🟢 | Em contracts/script/Deploy.s.sol |
+| Criar arquivo .env.example com todas as variáveis | 🟢 | Presente em ambos backend e contracts |
+| Implementar monitoramento de saúde do sistema | 🟢 | /health endpoint implementado |

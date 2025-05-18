@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - DEBUG=true
+      - CORS_ORIGINS=["http://localhost:3000"]
+      - RPC_URL=http://localhost:8545
+      - NOIR_CIRCUIT_PATH=/app/circuits/gym_verify
+      - PATH=/root/.cargo/bin:/root/.noir/bin:/root/.bb/bin:${PATH}
+    networks:
+      - zkverify-network
+
+  noir-builder:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+    working_dir: /app/circuits/gym_verify
+    environment:
+      - PATH=/root/.cargo/bin:/root/.noir/bin:/root/.bb/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    command: bash -c "source ~/.bashrc && nargo check && nargo compile"
+    networks:
+      - zkverify-network
+
+networks:
+  zkverify-network:
+    driver: bridge 

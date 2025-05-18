@@ -19,6 +19,11 @@ class Gym(GymBase):
 
 
 class ProofRequest(BaseModel):
-    user_lat: float
-    user_long: float
+    user_lat: int  # Multiplicado por 10^6
+    user_long: int  # Multiplicado por 10^6
     gym_id: int
+
+    class Config:
+        json_schema_extra = {
+            "example": {"user_lat": 37423640, "user_long": -122084050, "gym_id": 1}
+        }

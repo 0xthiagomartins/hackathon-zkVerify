@@ -14,7 +14,7 @@ flowchart TB
     subgraph "Backend"
         API["API (FastAPI)"]
         ZKP["Gerador de Provas ZK (Noir)"]
-        DB["Banco de Dados (PostgreSQL)"]
+        DB["Banco de Dados (Sqlite)"]
     end
     subgraph "Blockchain"
         SC["Smart Contracts (Solidity)"]

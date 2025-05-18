@@ -1,0 +1,113 @@
+type: collection.insomnia.rest/5.0
+name: DeGym zkVerify
+meta:
+  id: wrk_ced90618b3074b8c8c857598de81c690
+  created: 1747522963788
+  modified: 1747522963788
+collection:
+  - name: DeGym zkVerify API
+    meta:
+      id: fld_b61fe79301d2435b9c4cee89f1aae4af
+      created: 1710843000000
+      modified: 1710843000000
+      sortKey: -1747522963849
+      description: Endpoints da API DeGym zkVerify
+    children:
+      - url: "{{ _.base_url }}/health"
+        name: Health Check
+        meta:
+          id: req_70310d3b5e7748bf8f13d2f846f765db
+          created: 1710843000000
+          modified: 1710843000000
+          isPrivate: false
+          description: Verifica se a API está funcionando
+          sortKey: -1747522963840
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/generate-proof"
+        name: Generate ZK Proof
+        meta:
+          id: req_85e80a2818184d6fb0ff26d675f0d799
+          created: 1710843000000
+          modified: 1710843000000
+          isPrivate: false
+          description: Gera uma prova ZK para check-in
+          sortKey: -1747522963846
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"user_lat": 37423640,
+            	"user_long": -122084050,
+            	"gym_id": 1
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/gyms"
+        name: List Gyms
+        meta:
+          id: req_b8ac3fe20a884f29be26bfe1b4eea987
+          created: 1710843000000
+          modified: 1710843000000
+          isPrivate: false
+          description: Lista todas as academias disponíveis
+          sortKey: -1747522963843
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.base_url }}/gym/1"
+        name: Get Gym Details
+        meta:
+          id: req_f89938a479114198a161ab32550cd8c1
+          created: 1710843000000
+          modified: 1747523241985
+          isPrivate: false
+          description: Obtém detalhes de uma academia específica
+          sortKey: -1747522963845
+        method: GET
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_e87e09e2e17d5d135acbd10dc770252250164439
+    created: 1747522963875
+    modified: 1747522963875
+environments:
+  name: Base Environment
+  meta:
+    id: env_e87e09e2e17d5d135acbd10dc770252250164439
+    created: 1747522963871
+    modified: 1747523282136
+    isPrivate: false
+  data:
+    base_url: http://localhost:8000
